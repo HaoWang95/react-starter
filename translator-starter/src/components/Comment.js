@@ -1,8 +1,11 @@
 import React from 'react';
-import Faker from 'faker'
+import Faker from 'faker';
+import getLocation from '../utils/getLocation'
+import getCurrentLocation from '../utils/getLocation';
 
 
 function Comment() {
+    //let position = getCurrentLocation();
     return (
         <div className='ui container comments'>
             <ApprovalCard>
@@ -11,6 +14,8 @@ function Comment() {
                     authorImage={Faker.image.image()}
                     postDate={new Date(Faker.time.recent()).toUTCString()}
                     post={Faker.lorem.sentence()}
+                    // lat={position.lat}
+                    // lng={position.lng}
                 />
             </ApprovalCard>
 
@@ -19,12 +24,16 @@ function Comment() {
                 authorImage={Faker.image.image()}
                 postDate={new Date(Faker.time.recent()).toUTCString()}
                 post={Faker.lorem.sentence()}
+                // lat={position.lat}
+                // lng={position.lng}
             />
             <CommentDetail
                 author={Faker.name.findName()}
                 authorImage={Faker.image.image()}
                 postDate={new Date(Faker.time.recent()).toUTCString()}
                 post={Faker.lorem.sentence()}
+                // lat={position.lat}
+                // lng={position.lng}
             />
         </div>
     );
@@ -50,6 +59,7 @@ class CommentDetail extends React.Component {
                         <p>{this.props.post}</p>
                     </div>
                 </div>
+                
             </div>
         )
     }
