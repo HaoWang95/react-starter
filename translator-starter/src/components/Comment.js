@@ -1,7 +1,7 @@
 import React from 'react';
 import Faker from 'faker';
-import getLocation from '../utils/getLocation'
-import getCurrentLocation from '../utils/getLocation';
+//import getLocation from '../utils/getLocation'
+//import getCurrentLocation from '../utils/getLocation';
 
 
 function Comment() {
@@ -14,8 +14,8 @@ function Comment() {
                     authorImage={Faker.image.image()}
                     postDate={new Date(Faker.time.recent()).toUTCString()}
                     post={Faker.lorem.sentence()}
-                    // lat={position.lat}
-                    // lng={position.lng}
+                // lat={position.lat}
+                // lng={position.lng}
                 />
             </ApprovalCard>
 
@@ -24,22 +24,36 @@ function Comment() {
                 authorImage={Faker.image.image()}
                 postDate={new Date(Faker.time.recent()).toUTCString()}
                 post={Faker.lorem.sentence()}
-                // lat={position.lat}
-                // lng={position.lng}
+            // lat={position.lat}
+            // lng={position.lng}
             />
             <CommentDetail
                 author={Faker.name.findName()}
                 authorImage={Faker.image.image()}
                 postDate={new Date(Faker.time.recent()).toUTCString()}
                 post={Faker.lorem.sentence()}
-                // lat={position.lat}
-                // lng={position.lng}
+            // lat={position.lat}
+            // lng={position.lng}
             />
+            <LocationComponent/>
         </div>
     );
 }
 
 class CommentDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { lat: null, lng: null };
+        window.navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+            },
+            (err) => {
+                console.log(err)
+            }
+        )
+    }
+
     render() {
         return (
             <div className='comment'>
@@ -58,8 +72,10 @@ class CommentDetail extends React.Component {
                     <div className='post'>
                         <p>{this.props.post}</p>
                     </div>
+                    
                 </div>
-                
+
+
             </div>
         )
     }
@@ -80,6 +96,29 @@ class ApprovalCard extends React.Component {
                 </div>
             </div>
         );
+    }
+}
+
+class LocationComponent extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {lat: null, lng: null};
+        window.navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                this.setState({lat: pos.coords.latitude, lng: pos.coords.longitude})
+            },
+            (err) => {
+                console.log(err);
+            }
+        )  
+    }
+
+    render(){
+        return(
+            <div>
+                <p>location {this.state.lat}:{this.state.lng}</p>
+            </div>
+        )
     }
 }
 
