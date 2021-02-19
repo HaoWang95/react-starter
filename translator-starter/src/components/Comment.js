@@ -5,12 +5,15 @@ import Faker from 'faker'
 function Comment() {
     return (
         <div className='ui container comments'>
-            <CommentDetail
-                author={Faker.name.findName()}
-                authorImage={Faker.image.image()}
-                postDate={new Date(Faker.time.recent()).toUTCString()}
-                post={Faker.lorem.sentence()}
-            />
+            <ApprovalCard>
+                <CommentDetail
+                    author={Faker.name.findName()}
+                    authorImage={Faker.image.image()}
+                    postDate={new Date(Faker.time.recent()).toUTCString()}
+                    post={Faker.lorem.sentence()}
+                />
+            </ApprovalCard>
+
             <CommentDetail
                 author={Faker.name.findName()}
                 authorImage={Faker.image.image()}
@@ -49,6 +52,24 @@ class CommentDetail extends React.Component {
                 </div>
             </div>
         )
+    }
+}
+
+class ApprovalCard extends React.Component {
+    render() {
+        return (
+            <div className='ui card'>
+                <div className='content'>
+                    {this.props.children}
+                </div>
+                <div className='extra content'>
+                    <div className='ui two buttons'>
+                        <div className='ui basic green button'>Approve</div>
+                        <div className='ui basic red button'>Reject</div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
