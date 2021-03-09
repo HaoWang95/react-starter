@@ -41,15 +41,23 @@ function Comment() {
 }
 
 class CommentDetail extends React.Component {
-    constructor(props) {
+    constructor(props) { 
         super(props);
         this.state = { lat: null, lng: null };
+        // window.navigator.geolocation.getCurrentPosition(
+        //     (pos) => {
+        //         this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+        //     },
+        //     (err) => {
+        //         console.log(err)
+        //     }
+        // )
+    }
+
+    componentDidMount(){
         window.navigator.geolocation.getCurrentPosition(
             (pos) => {
-                this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
-            },
-            (err) => {
-                console.log(err)
+                this.setState({lat: pos.coords.latitude, lng: pos.coords.longitude})
             }
         )
     }
