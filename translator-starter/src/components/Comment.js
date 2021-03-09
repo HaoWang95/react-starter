@@ -35,15 +35,15 @@ function Comment() {
             // lat={position.lat}
             // lng={position.lng}
             />
-            <LocationComponent/>
+            <LocationComponent />
         </div>
     );
 }
 
 class CommentDetail extends React.Component {
-    constructor(props) { 
+    constructor(props) {
         super(props);
-        this.state = { lat: null, lng: null };
+        this.state = { lat: null, lng: null, errMes: null };
         // window.navigator.geolocation.getCurrentPosition(
         //     (pos) => {
         //         this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
@@ -54,10 +54,13 @@ class CommentDetail extends React.Component {
         // )
     }
 
-    componentDidMount(){
+    componentDidMount() {
         window.navigator.geolocation.getCurrentPosition(
             (pos) => {
-                this.setState({lat: pos.coords.latitude, lng: pos.coords.longitude})
+                this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+            },
+            (err) => {
+                this.setState({ errMes: err.message })
             }
         )
     }
@@ -80,10 +83,7 @@ class CommentDetail extends React.Component {
                     <div className='post'>
                         <p>{this.props.post}</p>
                     </div>
-                    
                 </div>
-
-
             </div>
         )
     }
@@ -107,26 +107,40 @@ class ApprovalCard extends React.Component {
     }
 }
 
-class LocationComponent extends React.Component{
-    constructor(props){
+class LocationComponent extends React.Component {
+    constructor(props) {
         super(props);
-        this.state = {lat: null, lng: null};
+        this.state = { lat: null, lng: null };
         window.navigator.geolocation.getCurrentPosition(
             (pos) => {
-                this.setState({lat: pos.coords.latitude, lng: pos.coords.longitude})
+                this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
             },
             (err) => {
                 console.log(err);
             }
-        )  
+        )
     }
 
-    render(){
-        return(
-            <div>
-                <p>location {this.state.lat}:{this.state.lng}</p>
-            </div>
-        )
+    render() {
+        if (this.state.errMes && !this.state.lat && !this.state.lng) {
+            return (
+                <div>
+                    <p>Error: {this.state.errMes}</p>
+                </div>
+            )
+        } else if (!this.state.errMes && this.state.lat && this.state.lng) {
+            return (
+                <div>
+                    <p>Location: {parseFloat(this.state.lat).toFixed(3)}-{parseFloat(this.state.lng).toFixed(2)}</p>
+                </div>
+            )
+        } else if (!this.state.errMes && !this.state.lat && !this.state.lng) {
+            return (
+                <div>
+                    <p>Loading location</p>
+                </div>
+            )
+        }
     }
 }
 
