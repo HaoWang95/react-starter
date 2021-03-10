@@ -3,6 +3,8 @@ import Faker from 'faker';
 //import getLocation from '../utils/getLocation'
 //import getCurrentLocation from '../utils/getLocation';
 
+import SeasonDisplay from './SeasonDisplay';
+
 
 function Comment() {
     //let position = getCurrentLocation();
@@ -54,16 +56,16 @@ class CommentDetail extends React.Component {
         // )
     }
 
-    componentDidMount() {
-        window.navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
-            },
-            (err) => {
-                this.setState({ errMes: err.message })
-            }
-        )
-    }
+    // componentDidMount() {
+    //     window.navigator.geolocation.getCurrentPosition(
+    //         (pos) => {
+    //             this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+    //         },
+    //         (err) => {
+    //             this.setState({ errMes: err.message })
+    //         }
+    //     )
+    // }
 
     render() {
         return (
@@ -111,12 +113,16 @@ class LocationComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = { lat: null, lng: null };
+    }
+
+    componentDidMount() {
         window.navigator.geolocation.getCurrentPosition(
             (pos) => {
                 this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
             },
             (err) => {
                 console.log(err);
+                this.setState({ errMes: err.message })
             }
         )
     }
@@ -130,9 +136,7 @@ class LocationComponent extends React.Component {
             )
         } else if (!this.state.errMes && this.state.lat && this.state.lng) {
             return (
-                <div>
-                    <p>Location: {parseFloat(this.state.lat).toFixed(3)}-{parseFloat(this.state.lng).toFixed(2)}</p>
-                </div>
+                <SeasonDisplay lat={this.state.lat} lng = {this.state.lng} />
             )
         } else if (!this.state.errMes && !this.state.lat && !this.state.lng) {
             return (
