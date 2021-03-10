@@ -1,6 +1,7 @@
 import React from 'react';
 import "semantic-ui-css/semantic.min.css";
 import '../css/SeasonDisplay.css';
+import Loader from './Loader'
 //import ReactDOM from 'react-dom';
 
 const seasonConfig = {

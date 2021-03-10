@@ -4,6 +4,7 @@ import Faker from 'faker';
 //import getCurrentLocation from '../utils/getLocation';
 
 import SeasonDisplay from './SeasonDisplay';
+import Loader from './Loader';
 
 
 function Comment() {
@@ -46,26 +47,7 @@ class CommentDetail extends React.Component {
     constructor(props) {
         super(props);
         this.state = { lat: null, lng: null, errMes: null };
-        // window.navigator.geolocation.getCurrentPosition(
-        //     (pos) => {
-        //         this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
-        //     },
-        //     (err) => {
-        //         console.log(err)
-        //     }
-        // )
     }
-
-    // componentDidMount() {
-    //     window.navigator.geolocation.getCurrentPosition(
-    //         (pos) => {
-    //             this.setState({ lat: pos.coords.latitude, lng: pos.coords.longitude })
-    //         },
-    //         (err) => {
-    //             this.setState({ errMes: err.message })
-    //         }
-    //     )
-    // }
 
     render() {
         return (
@@ -127,7 +109,7 @@ class LocationComponent extends React.Component {
         )
     }
 
-    render() {
+    renderHelper() {
         if (this.state.errMes && !this.state.lat && !this.state.lng) {
             return (
                 <div>
@@ -136,15 +118,19 @@ class LocationComponent extends React.Component {
             )
         } else if (!this.state.errMes && this.state.lat && this.state.lng) {
             return (
-                <SeasonDisplay lat={this.state.lat} lng = {this.state.lng} />
+                <SeasonDisplay lat={this.state.lat} lng={this.state.lng} />
             )
         } else if (!this.state.errMes && !this.state.lat && !this.state.lng) {
-            return (
-                <div>
-                    <p>Loading location</p>
-                </div>
-            )
+            return <Loader msg='Pleas allow the location request' />;
         }
+    }
+
+    render() {
+        return (
+            <div>
+                {this.renderHelper()}
+            </div>
+        )
     }
 }
 
