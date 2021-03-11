@@ -3,30 +3,29 @@ import './App.css';
 import React from 'react';
 import Faker from 'faker';
 import SearchBar from './components/SearchBar'
-import axios from 'axios';
+//import axios from 'axios';
+import searchImage from './api/unsplash'
+import ImageList from './components/ImageList';
 
 class App extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor() {
     super();
+    this.state = {images: []}
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
   }
 
   // in the root hierarchy, this function will be binded and passed as props into child component
   async onSearchSubmit(search) {
-    console.log(search)
-    await axios.get(
-      'https://api.unsplash.com/search/photos',
+    //console.log(search)
+    await searchImage.get('/search/photos',
       {
         params: { query: search },
-        headers: {
-          //'Accept-Version': 'V1',
-          Authorization: 'Client-ID 8p5FbjGAzLwJSzpiRt1AyxP-jkPwHaSTUg8ZOwfT02Y'
-        },
       }
     ).then(
       resp => {
-        console.log(resp.data.results)
+        //console.log(resp.data.results)
+        this.setState({images: resp.data.results})
       }
     )
   }
@@ -35,6 +34,8 @@ class App extends React.Component {
     return (
       <div className='ui container' style={{ marginTop: '10px' }}>
         <SearchBar onSubmit={this.onSearchSubmit} />
+        Found: {this.state.images.length}
+        <ImageList images = {this.state.images}/>
       </div>
     );
   }
