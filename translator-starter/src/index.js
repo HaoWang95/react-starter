@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-//import App from './App';
+import App from './App';
 import Comment from './components/Comment'
 //import getCurrentPosition from './utils/getLocation'
 import reportWebVitals from './reportWebVitals';
-import SearchBar from './components/SearchBar'
+//import SearchBar from './components/SearchBar'
 
 ReactDOM.render(
-  <SearchBar />,
+  <App />,
   document.getElementById('root')
 );
 
